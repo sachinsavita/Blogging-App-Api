@@ -1,0 +1,9 @@
+spring.datasource.url=jdbc:sqlserver://SACHINSAVITA\\SQLEXPRESS:1433;databaseName=blogApp;encrypt=true;trustServerCertificate=true;
+spring.datasource.username=MicroSystem
+spring.datasource.password=micro@123
+spring.datasource.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.SQLServer2012Dialect
+server.port=8085
+server.address=localhost
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true

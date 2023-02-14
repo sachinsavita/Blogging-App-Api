@@ -1,0 +1,5 @@
+spring.datasource.url=jdbc:sqlserver://SACHINSAVITA\\SQLEXPRESS:1433;encrypt=false;databaseName=blogApp
+spring.datasource.username=MicroSystem
+spring.datasource.password=micro@123
+server.port=8090
+server.address=localhost

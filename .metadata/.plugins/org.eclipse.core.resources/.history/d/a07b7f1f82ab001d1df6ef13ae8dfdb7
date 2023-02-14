@@ -1,0 +1,79 @@
+package com.blogapp.services.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.blogapp.entity.User;
+import com.blogapp.payloads.UserDTO;
+import com.blogapp.repos.UserRepo;
+import com.blogapp.services.UserService;
+import com.blogapp.exceptions.*;
+public class UserServiceImpl implements UserService{
+	
+	@Autowired
+	private UserRepo userRepo;
+
+	@Override
+	public UserDTO createUser(UserDTO userDto) {
+		
+		User user = this.dtoToUser(userDto);
+		User savedUser = this.userRepo.save(user);
+		return this.userToDto(savedUser);
+	}
+
+	@Override
+	public UserDTO updateUser(UserDTO userDto, Integer userId) {
+		User user = this.userRepo.findById(userId)
+				.orElseThrow(()-> new ResourceNotFoundException("User", "Id",userId));
+		
+		user.setName(userDto.getName());
+		user.setEmail(userDto.getEmail());
+		user.setAbout(userDto.getAbout());
+		user.setPassword(userDto.getPassword());
+		
+			User updatedUser = this.userRepo.save(user);
+		UserDTO updatedUserDto = this.userToDto(updatedUser);
+		return updatedUserDto;
+	}
+
+	@Override
+	public UserDTO getUserById(Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserDTO> getAllUsers() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteUser(Integer userId) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public User dtoToUser(UserDTO userDto)
+	{
+		User user = new User();
+		user.setId(userDto.getId());
+		user.setName(userDto.getName());
+		user.setEmail(userDto.getEmail());
+		user.setAbout(userDto.getAbout());
+		user.setPassword(userDto.getPassword());
+		return user;
+	}
+
+	public UserDTO userToDto(User user)
+	{
+		UserDTO userDTO = new UserDTO();
+		userDTO.setId(user.getId());
+		userDTO.setName(user.getName());
+		userDTO.setEmail(user.getEmail());
+		userDTO.setAbout(user.getAbout());
+		userDTO.setPassword(user.getPassword());
+		return userDTO;
+	}
+}
