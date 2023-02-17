@@ -1,0 +1,75 @@
+package com.blogapp.services.impl;
+
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.blogapp.entity.Category;
+import com.blogapp.exceptions.ResourceNotFoundException;
+import com.blogapp.payloads.CategoryDto;
+import com.blogapp.repos.CategoryRepo;
+import com.blogapp.services.CategoryService;
+
+@Service
+public class CategoryImpl implements CategoryService {
+	
+	@Autowired
+	private CategoryRepo categoryRepo;
+	@Autowired
+	private ModelMapper modelMapper;
+
+	@Override
+	public CategoryDto createCategory(CategoryDto categoryDto) {
+		
+//		Category category = this.dtoToCategory(categoryDto);
+//		
+//		Category savedCategory = this.categoryRepo.save(category);
+//		
+//		return this.categoryToDto(savedCategory);
+		
+		
+		Category category = this.modelMapper.map(categoryDto, Category.class);
+		Category savedCategory = this.categoryRepo.save(category);
+		return this.modelMapper.map(savedCategory, CategoryDto.class);
+	}
+
+	@Override
+	public CategoryDto updateCategory(CategoryDto categoryDto, Integer categoryId) {
+		Category category = this.categoryRepo.findById(categoryId).orElseThrow(()-> new ResourceNotFoundException("Category", "categoryId",categoryId));
+		
+		
+	}
+
+	@Override
+	public CategoryDto deleteCategory(Integer categoryId) {
+	
+		return null;
+	}
+
+	@Override
+	public CategoryDto getCategoryById(Integer categoryId) {
+		
+		return null;
+	}
+
+	@Override
+	public List<CategoryDto> getCategories() {
+		
+		return null;
+	}
+	
+	public Category dtoToCategory(CategoryDto categoryDto)
+	{	
+		Category category = this.modelMapper.map(categoryDto, Category.class);
+		return category;
+	}
+	
+	public CategoryDto categoryToDto(Category category)
+	{	
+		CategoryDto categoryDto = this.modelMapper.map(category, CategoryDto.class);
+		return categoryDto;
+	}
+
+}

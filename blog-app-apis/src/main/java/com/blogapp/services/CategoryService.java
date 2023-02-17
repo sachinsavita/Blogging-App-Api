@@ -1,0 +1,24 @@
+package com.blogapp.services;
+
+
+import java.util.List;
+
+import com.blogapp.payloads.CategoryDto;
+
+public interface CategoryService {
+	
+	//create
+	 CategoryDto createCategory(CategoryDto categoryDto);
+	//update
+	 CategoryDto updateCategory(CategoryDto categoryDto, Integer categoryId);
+	//delete
+	 CategoryDto deleteCategory(Integer categoryId);
+	//get byId
+	 CategoryDto getCategoryById(Integer categoryId);
+	//get all
+     List<CategoryDto> getAllCategory();
+    
+    
+    //NOTE= No need to write public because in interface all the methods are abstract and public 
+	
+}

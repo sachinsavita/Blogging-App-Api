@@ -1,26 +1,29 @@
 package com.blogapp.services.impl;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blogapp.entity.User;
-import com.blogapp.payloads.UserDTO;
+import com.blogapp.exceptions.ResourceNotFoundException;
+import com.blogapp.payloads.UserDto;
 import com.blogapp.repos.UserRepo;
 import com.blogapp.services.UserService;
-import com.blogapp.exceptions.*;
 
 @Service
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private UserRepo userRepo;
+	
+	@Autowired
+	private ModelMapper modelMapper;     //Bean in the main application class
 
 	@Override
-	public UserDTO createUser(UserDTO userDto) {
+	public UserDto createUser(UserDto userDto) {
 		
 		User user = this.dtoToUser(userDto);
 		User savedUser = this.userRepo.save(user);
@@ -28,7 +31,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserDTO updateUser(UserDTO userDto, Integer userId) {
+	public UserDto updateUser(UserDto userDto, Integer userId) {
 		User user = this.userRepo.findById(userId)
 				.orElseThrow(()-> new ResourceNotFoundException("User", "Id",userId));
 		
@@ -38,49 +41,58 @@ public class UserServiceImpl implements UserService{
 		user.setPassword(userDto.getPassword());
 		
 			User updatedUser = this.userRepo.save(user);
-		UserDTO updatedUserDto = this.userToDto(updatedUser);
+			UserDto updatedUserDto = this.userToDto(updatedUser);
 		return updatedUserDto;
 	}
 
 	@Override
-	public UserDTO getUserById(Integer userId) {
+	public UserDto getUserById(Integer userId) {
 		User user = this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User","id", userId));
 		
 		return this.userToDto(user);
 	}
 
 	@Override
-	public List<UserDTO> getAllUsers() {
+	public List<UserDto> getAllUsers() {
 		List<User> users= this.userRepo.findAll();
-		List<UserDTO> usersDtos = users.stream().map(user->this.userToDto(user)).collect(Collectors.toList());
+		List<UserDto> usersDtos = users.stream()
+				.map(user->this.userToDto(user))
+				.collect(Collectors.toList());
 		return usersDtos;
 	}
 
 	@Override
-	public void deleteUser(Integer userId) {
+	public UserDto deleteUser(Integer userId) {
 		User user = this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User","id", userId));
 		this.userRepo.delete(user);
+		UserDto deletedUser = this.userToDto(user);
+		return deletedUser;
 	}
 	
-	public User dtoToUser(UserDTO userDto)
+	public User dtoToUser(UserDto userDto)
 	{
-		User user = new User();
-		user.setId(userDto.getId());
-		user.setName(userDto.getName());
-		user.setEmail(userDto.getEmail());
-		user.setAbout(userDto.getAbout());
-		user.setPassword(userDto.getPassword());
+//		User user = new User();
+		
+		User user = this.modelMapper.map(userDto, User.class);
+//		user.setId(userDto.getId());
+//		user.setName(userDto.getName());
+//		user.setEmail(userDto.getEmail());
+//		user.setAbout(userDto.getAbout());
+//		user.setPassword(userDto.getPassword());
 		return user;
 	}
 
-	public UserDTO userToDto(User user)
+	public UserDto userToDto(User user)
 	{
-		UserDTO userDTO = new UserDTO();
-		userDTO.setId(user.getId());
-		userDTO.setName(user.getName());
-		userDTO.setEmail(user.getEmail());
-		userDTO.setAbout(user.getAbout());
-		userDTO.setPassword(user.getPassword());
-		return userDTO;
+//		UserDTO userDTO = new UserDTO();
+		
+		UserDto userDto = this.modelMapper.map(user, UserDto.class);
+		
+//		userDTO.setId(user.getId());
+//		userDTO.setName(user.getName());
+//		userDTO.setEmail(user.getEmail());
+//		userDTO.setAbout(user.getAbout());
+//		userDTO.setPassword(user.getPassword());
+		return userDto;
 	}
 }

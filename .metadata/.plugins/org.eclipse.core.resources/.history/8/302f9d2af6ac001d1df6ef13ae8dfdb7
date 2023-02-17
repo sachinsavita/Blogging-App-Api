@@ -1,0 +1,68 @@
+package com.blogapp.services.impl;
+
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.blogapp.entity.Category;
+import com.blogapp.entity.User;
+import com.blogapp.payloads.CategoryDto;
+import com.blogapp.payloads.UserDto;
+import com.blogapp.repos.CategoryRepo;
+import com.blogapp.services.CategoryService;
+
+@Service
+public class CategoryImpl implements CategoryService {
+	
+	@Autowired
+	private CategoryRepo categoryRepo;
+	@Autowired
+	private ModelMapper modelMapper;
+
+	@Override
+	public CategoryDto createCategory(CategoryDto categoryDto) {
+		
+		
+		
+		return null;
+	}
+
+	@Override
+	public CategoryDto updateCategory(CategoryDto categoryDto, Integer categoryId) {
+		
+		return null;
+	}
+
+	@Override
+	public CategoryDto deleteCategory(Integer categoryId) {
+	
+		return null;
+	}
+
+	@Override
+	public CategoryDto getCategoryById(Integer categoryId) {
+		
+		return null;
+	}
+
+	@Override
+	public List<CategoryDto> getCategories() {
+		
+		return null;
+	}
+	
+	public Category dtoToCategory(CategoryDto categoryDto)
+	{	
+		Category category = this.modelMapper.map(categoryDto, Category.class);
+		return category;
+	}
+	
+	public CategoryDto categoryToDto(Category category)
+	{	
+		CategoryDto categoryDto = this.modelMapper.map(category, CategoryDto.class);
+		return categoryDto;
+	}
+
+}

@@ -1,0 +1,43 @@
+package com.blogapp.services.impl;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.blogapp.payloads.CategoryDto;
+import com.blogapp.services.CategoryService;
+
+@Service
+public class CategoryImpl implements CategoryService {
+
+	@Override
+	public CategoryDto createCategory(CategoryDto categoryDto) {
+		
+		return null;
+	}
+
+	@Override
+	public CategoryDto updateCategory(CategoryDto categoryDto, Integer categoryId) {
+		
+		return null;
+	}
+
+	@Override
+	public CategoryDto deleteCategory(Integer categoryId) {
+	
+		return null;
+	}
+
+	@Override
+	public CategoryDto getCategoryById(Integer categoryId) {
+		
+		return null;
+	}
+
+	@Override
+	public List<CategoryDto> getCategories() {
+		
+		return null;
+	}
+
+}
